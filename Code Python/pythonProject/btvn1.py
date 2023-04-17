@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-path = r'images/anhdark.jpg'
+path = r'images/anhR4.jpg'
 img = cv2.imread(path)
 img_xam = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 column,row = img_xam.shape[:2]
@@ -60,16 +60,19 @@ plt.title('anh Poisson')
 # a. Loc anh bang phg phap loc Trung Binh
 # Cach 1 ( tinh toan ) :
 # kernel1 = np.ones((3, 3), np.float32) / 9
-# img_LocTB = cv2.filter2D(src= img_SP_noise, ddepth=-1, kernel=kernel1)
+kernel1 = np.array([[1, 1, 1],
+                    [1, 1, 1],
+                    [1, 1, 1]]) / 9
+img_LocTB = cv2.filter2D(src= img_SP_noise, ddepth=-1, kernel=kernel1)
 # Cach 2 ( tvien co san ) :
-img_LocTB = cv2.blur(img_SP_noise , ksize=(3,3))
+# img_LocTB = cv2.blur(img_SP_noise , ksize=(3,3))
 
 #b. Loc anh bang phg phap Loc Trung Vi
 img_LocTVi = cv2.medianBlur(img_SP_noise , ksize= 5 )
 
 #c. Loc anh bang phg phap sac net
 kernel3 = np.array([[0, -1, 0],
-                   [-1, 5, -1],
+                    [-1, 5, -1],
                     [0, -1, 0]])
 img_Sacnet = cv2.filter2D(src=img_LocTVi, ddepth=-1, kernel=kernel3)
 
